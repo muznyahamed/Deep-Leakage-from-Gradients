@@ -1,0 +1,193 @@
+<!doctype html>
+{% extends 'base.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Attacks</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('/static/images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #000; /* Black text color for readability */
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+            padding: 2rem;
+            border-radius: 0.5rem; /* Rounded corners for the container */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Primary button background color */
+            border-color: #007bff; /* Primary button border color */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Primary button background color on hover */
+            border-color: #004085; /* Primary button border color on hover */
+        }
+        .btn-success {
+            background-color: #28a745; /* Success button background color */
+            border-color: #28a745; /* Success button border color */
+        }
+        .btn-success:hover {
+            background-color: #1e7e34; /* Success button background color on hover */
+            border-color: #1c7430; /* Success button border color on hover */
+        }
+        h1, h2, h3 {
+            color: #000; /* Black text color for headings */
+        }
+        label {
+            color: #000; /* Black text color for labels */
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .result-header {
+            margin-bottom: 20px;
+        }
+        .experiment img {
+            max-width: 100%; /* Ensures images fit within the container */
+            height: auto;
+            margin-bottom: 10px; /* Space between images */
+        }
+        .tab-pane {
+            overflow: hidden; /* Prevents overflow */
+        }
+        .img-container {
+            margin-bottom: 15px; /* Space between images */
+        }
+        .result-container {
+            margin-bottom: 20px; /* Space between results sections */
+        }
+        .result-content {
+            max-height: 400px; /* Limit height for results to allow vertical scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        .img-thumbnail {
+            max-width: 80%; /* Limit the max width of images */
+            height: auto; /* Maintain aspect ratio */
+        }
+        @media (max-width: 768px) {
+            .result-content {
+                max-height: 300px; /* Reduced height for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-2">
+        <h2 class="text-center">Compare DLG Attacks</h2>
+        <form method="post" action="/compare" class="mb-4">
+            <!-- Compare Button -->
+            <div class="compare-btn-container">
+                <button type="submit" class="btn btn-primary">Run Comparison</button>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="inputs-tab" data-toggle="tab" href="#inputs" role="tab" aria-controls="inputs" aria-selected="true">Inputs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="results-tab" data-toggle="tab" href="#results" role="tab" aria-controls="results" aria-selected="false">Results</a>
+                </li>
+            </ul>
+            <!-- Tab Content -->
+            <div class="tab-content mt-3" id="myTabContent">
+                <!-- Inputs Tab -->
+                <div class="tab-pane fade show active" id="inputs" role="tabpanel" aria-labelledby="inputs-tab">
+                    <div class="row">
+                        <!-- Experiment 1 Inputs -->
+                        <div class="col-md-6">
+                            <h3>Experiment 1</h3>
+                            <div class="form-group">
+                                <label for="dataset_type1">Dataset Type 1</label>
+                                <select name="dataset_type1" id="dataset_type1" class="form-control" required>
+                                    <option value="">Select Dataset Type 1</option>
+                                    <option value="FashionMNIST">FashionMNIST</option>
+                                    <option value="Caltech101">Caltech101</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="batch_size1">Batch Size 1</label>
+                                <input type="number" name="batch_size1" id="batch_size1" class="form-control" placeholder="Batch Size 1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="num_epochs1">Number of Epochs 1</label>
+                                <input type="number" name="num_epochs1" id="num_epochs1" class="form-control" placeholder="Number of Epochs 1" required>
+                            </div>
+                        </div>
+
+                        <!-- Experiment 2 Inputs -->
+                        <div class="col-md-6">
+                            <h3>Experiment 2</h3>
+                            <div class="form-group">
+                                <label for="dataset_type2">Dataset Type 2</label>
+                                <select name="dataset_type2" id="dataset_type2" class="form-control" required>
+                                    <option value="">Select Dataset Type 2</option>
+                                    <option value="FashionMNIST">FashionMNIST</option>
+                                    <option value="Caltech101">Caltech101</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="batch_size2">Batch Size 2</label>
+                                <input type="number" name="batch_size2" id="batch_size2" class="form-control" placeholder="Batch Size 2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="num_epochs2">Number of Epochs 2</label>
+                                <input type="number" name="num_epochs2" id="num_epochs2" class="form-control" placeholder="Number of Epochs 2" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Results Tab -->
+                <div class="tab-pane fade" id="results" role="tabpanel" aria-labelledby="results-tab">
+                    <div class="row">
+                        <!-- Experiment 1 Results -->
+                        <div class="col-md-6 result-container">
+                            <h3>Experiment 1 Results</h3>
+                            <div class="result-content">
+                                {% if img_html_list1 and plots_image1 %}
+                                <div class="result-header">
+                                    <h5>MSE: {{ mse_value1 }}</h5>
+                                </div>
+                                <img src="data:image/png;base64,{{ plots_image1 }}" alt="Plots for Experiment 1" class="img-thumbnail">
+                                {% for img in img_html_list1 %}
+                                <div class="img-container">
+                                    <img src="data:image/png;base64,{{ img }}" alt="Evolution of Image" class="img-thumbnail">
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- Experiment 2 Results -->
+                        <div class="col-md-6 result-container">
+                            <h3>Experiment 2 Results</h3>
+                            <div class="result-content">
+                                {% if img_html_list2 and plots_image2 %}
+                                <div class="result-header">
+                                    <h5>MSE: {{ mse_value2 }}</h5>
+                                </div>
+                                <img src="data:image/png;base64,{{ plots_image2 }}" alt="Plots for Experiment 2" class="img-thumbnail">
+                                {% for img in img_html_list2 %}
+                                <div class="img-container">
+                                    <img src="data:image/png;base64,{{ img }}" alt="Evolution of Image" class="img-thumbnail">
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

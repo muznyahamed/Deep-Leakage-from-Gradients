@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bg-custom {
+            background-image: url('/static/images/background.jpg'); /* Path to your background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+        }
+        .container-custom {
+            background-color: #fff; /* White background for content area */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #343a40; /* Dark text color */
+        }
+        .navbar-custom {
+            background-color: #343a40; /* Dark background for navbar */
+        }
+        .navbar-custom a {
+            color: #fff !important;
+        }
+        .navbar-custom a:hover {
+            color: #ddd !important;
+        }
+        .btn-get-started {
+            background-color: #007bff; /* Primary button color */
+            color: #fff;
+        }
+        .btn-get-started:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            color: #fff;
+        }
+        .text-dark {
+            color: #343a40 !important; /* Black text color for content */
+        }
+    </style>
+</head>
+<body class="bg-custom">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="/">Gradient Attack & Protection Demo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/index">DLG Attack</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/compare">Compare DLG Attacks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/protection">Gradient Protection</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/compare_protection">Compare DLG Protections</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container container-custom text-center mt-5 pt-5 pb-5">
+        <h1 class="text-dark">Welcome to the Gradient Attack and Protection Demo</h1>
+        <p class="mt-4 text-dark">
+            This platform allows you to explore various experiments and techniques related to gradient attacks and defenses. Here’s what you can do:
+        </p>
+        <div class="row text-dark">
+            <div class="col-md-6">
+                <h3>DLG Attack</h3>
+                <p>
+                    Perform gradient leakage attacks on different datasets and compare the results. Adjust parameters like batch size and noise type to see their effects.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Compare DLG Attacks</h3>
+                <p>
+                    Compare the effectiveness of different gradient leakage attacks side-by-side. Analyze how variations in attack settings influence the results.
+                </p>
+            </div>
+            <div class="col-md-6 mt-4">
+                <h3>Gradient Protection</h3>
+                <p>
+                    Apply privacy mechanisms like Laplacian or Gaussian noise to defend against gradient leakage attacks. Learn how different defenses impact attack success.
+                </p>
+            </div>
+            <div class="col-md-6 mt-4">
+                <h3>Compare Protections</h3>
+                <p>
+                    Compare the effectiveness of various privacy mechanisms in defending against gradient leakage attacks. Evaluate how well each defense performs.
+                </p>
+            </div>
+        </div>
+        <a href="/index" class="btn btn-get-started mt-4">Get Started</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

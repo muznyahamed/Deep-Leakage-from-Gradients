@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Leakage Experiment</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .container {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8); /* Light background color with some opacity */
+            border-radius: 0.5rem; /* Rounded corners for the container */
+            color: #000; /* Black text color */
+        }
+        .result-image {
+            max-width: 100%;
+            height: auto;
+        }
+        .btn-primary {
+            background-color: #007bff; /* Primary button background color */
+            border-color: #007bff; /* Primary button border color */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Primary button background color on hover */
+            border-color: #004085; /* Primary button border color on hover */
+        }
+        h1, h2 {
+            color: #000; /* Black text color for headings */
+        }
+        label {
+            color: #000; /* Black text color for labels */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Gradient Leakage Experiment</h1>
+        <form method="post" class="mb-4">
+            <div class="form-group">
+                <label for="batch_size">Batch Size</label>
+                <input type="number" id="batch_size" name="batch_size" class="form-control" value="{{ request.form['batch_size'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="noise_type">Noise Type</label>
+                <select id="noise_type" name="noise_type" class="form-control" required>
+                    <option value="Gaussian" {% if request.form['noise_type'] == 'Gaussian' %}selected{% endif %}>Gaussian</option>
+                    <option value="Laplacian" {% if request.form['noise_type'] == 'Laplacian' %}selected{% endif %}>Laplacian</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="noise_strength">Noise Strength</label>
+                <input type="number" step="0.0001" id="noise_strength" name="noise_strength" class="form-control" value="{{ request.form['noise_strength'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="dataset_type">Dataset Type</label>
+                <select id="dataset_type" name="dataset_type" class="form-control" required>
+                    <option value="fashion_mnist" {% if request.form['dataset_type'] == 'fashion_mnist' %}selected{% endif %}>Fashion MNIST</option>
+                    <option value="caltech101" {% if request.form['dataset_type'] == 'caltech101' %}selected{% endif %}>Caltech 101</option>
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Run Experiment</button>
+            </div>
+        </form>
+
+        {% if gt_image %}
+        <h2 class="text-center">Ground Truth Images</h2>
+        <div class="text-center">
+            <img src="data:image/png;base64,{{ gt_image }}" class="result-image" alt="Ground Truth Images">
+        </div>
+        {% endif %}
+
+        {% if metrics_image %}
+        <h2 class="text-center">Metrics (PSNR and MSE)</h2>
+        <div class="text-center">
+            <img src="data:image/png;base64,{{ metrics_image }}" class="result-image" alt="Metrics">
+        </div>
+        {% endif %}
+
+        {% if dummy_data_images %}
+        <h2 class="text-center">Dummy Data Evolution Over Iterations</h2>
+        {% for image in dummy_data_images %}
+        <div class="text-center">
+            <img src="data:image/png;base64,{{ image }}" class="result-image" alt="Dummy Data Evolution">
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}
